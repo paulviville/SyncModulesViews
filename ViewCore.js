@@ -1,6 +1,9 @@
 import { Object3D } from 'three';
+import ModuleCore from '../SyncModules/Core/ModuleCore.js';
 
 export default class ViewCore extends Object3D {
+	static type = ModuleCore.type;
+
 	#module;
 
 	constructor ( module ) {
@@ -19,6 +22,7 @@ export default class ViewCore extends Object3D {
 	#setModule ( module ) {
 		console.log( `ViewCore - setModule` );
 		this.#module = module;
+		
 		this.setCallbacks( );
 	}
 
@@ -27,5 +31,10 @@ export default class ViewCore extends Object3D {
 		console.log( `ViewCore - setCallbacks` );
 		/// module.setOnChange( ... );
 		return;
+	}
+
+	delete ( ) {
+		console.log( `ViewCore - delete` );
+		
 	}
 }
