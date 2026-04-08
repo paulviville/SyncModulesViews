@@ -7,7 +7,7 @@ export default class ViewCore extends Object3D {
 	#module;
 
 	constructor ( module ) {
-		console.log( `ViewCore - constructor` );
+		// console.log( `ViewCore - constructor` );
 
 		super( );
 
@@ -20,7 +20,7 @@ export default class ViewCore extends Object3D {
 
 	/// overload in children
 	#setModule ( module ) {
-		console.log( `ViewCore - setModule` );
+		// console.log( `ViewCore - setModule` );
 		this.#module = module;
 		
 		this.setCallbacks( );
@@ -28,13 +28,13 @@ export default class ViewCore extends Object3D {
 
 	/// overload in children
 	setCallbacks ( ) {
-		console.log( `ViewCore - setCallbacks` );
+		// console.log( `ViewCore - setCallbacks` );
 		/// module.setOnChange( ... );
 		return;
 	}
 
 	delete ( ) {
-		console.log( `ViewCore - delete` );
-		
+		// console.log( `ViewCore - delete` );
+
 	}
 }

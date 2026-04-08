@@ -8,7 +8,7 @@ export default class TransformView extends ViewCore {
 	#axes = new AxesHelper( 1 )
 
 	constructor ( module ) {
-		console.log( `TransformView - constructor` );
+		// console.log( `TransformView - constructor` );
 		
 		super( module );
 
@@ -20,7 +20,7 @@ export default class TransformView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `TransformView - setCallbacks` );
+		// console.log( `TransformView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.updateTransform,
 			( transform ) => this.#updateTransform( transform )
@@ -28,20 +28,20 @@ export default class TransformView extends ViewCore {
 	}
 
 	#updateTransform ( transform ) {
-		console.log( `TransformView - #updateTransform` );
+		// console.log( `TransformView - #updateTransform` );
 
 		const { translation, rotation, scale } = transform;
-		console.log(transform)
+		// console.log(transform)
 		this.position.fromArray( translation );
 		this.quaternion.fromArray( rotation );
 		this.scale.fromArray( scale );
 	}
 
 	delete ( ) {
-		console.log( `TransformView - delete` );
+		// console.log( `TransformView - delete` );
 		
 		super.delete( );
-		
+
 		this.#axes.dispose( ); 
 	}
 }

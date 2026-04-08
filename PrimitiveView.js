@@ -1,6 +1,6 @@
 import PrimitiveModule from "../SyncModules/PrimitiveModule.js";
 import TransformView from "./TransformView.js";
-import { BoxGeometry, Mesh, Matrix4, MeshPhongMaterial, Object3D, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "three";
+import { BoxGeometry, Mesh, MeshPhongMaterial, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "three";
 
 export default class PrimitiveView extends TransformView {
 	static type = PrimitiveModule.type;
@@ -10,7 +10,7 @@ export default class PrimitiveView extends TransformView {
 	#mesh = new Mesh( this.#geometry, this.#material );
 
 	constructor ( module ) {
-		console.log( `PrimitiveView - constructor` );
+		// console.log( `PrimitiveView - constructor` );
 		
 		super( module );
 
@@ -19,7 +19,7 @@ export default class PrimitiveView extends TransformView {
 	}
 
 	setCallbacks ( ) {
-		console.log( `PrimitiveView - setCallbacks` );
+		// console.log( `PrimitiveView - setCallbacks` );
 
 		super.setCallbacks( );
 		this.module.setOnChange( this.module.commands.updatePrimitive, 
@@ -28,7 +28,7 @@ export default class PrimitiveView extends TransformView {
 	}
 
 	#updatePrimitive ( primitive ) {
-		console.log( `PrimitiveView - #updatePrimitive` );
+		// console.log( `PrimitiveView - #updatePrimitive` );
 
 		const primitiveTypes = this.module.primitiveTypes;
 		
@@ -56,7 +56,7 @@ export default class PrimitiveView extends TransformView {
 	}
 
 	delete ( ) {
-		console.log( `PrimitiveView - delete` );
+		// console.log( `PrimitiveView - delete` );
 		
 		super.delete( );
 		this.#mesh.geometry.dispose( );

@@ -9,7 +9,7 @@ export default class CameraView extends TransformView {
 
 
 	constructor ( module ) {
-		console.log( `CameraView - constructor` );
+		// console.log( `CameraView - constructor` );
 		
 		super( module );
 
@@ -18,7 +18,7 @@ export default class CameraView extends TransformView {
 	}
 
 	setCallbacks ( ) {
-		console.log( `CameraView - setCallbacks` );
+		// console.log( `CameraView - setCallbacks` );
 
 		super.setCallbacks( );
 		this.module.setOnChange( this.module.commands.updateCamera, 
@@ -27,16 +27,16 @@ export default class CameraView extends TransformView {
 	}
 
 	#updateCamera ( camera ) {
-		console.log( `CameraView - #updateCamera` );
+		// console.log( `CameraView - #updateCamera` );
 		
 		const { fov, aspect, near, far } = camera;
-		console.log( fov, aspect, near, far );
+		// console.log( fov, aspect, near, far );
 		this.#cameraHelper.camera.fov = fov;
 		this.#cameraHelper.camera.aspect = aspect;
 		this.#cameraHelper.camera.near = near;
 		this.#cameraHelper.camera.far = far;
 		this.#cameraHelper.camera.updateProjectionMatrix( );
-		console.log(this.#cameraHelper)
+		// console.log(this.#cameraHelper)
 		this.#cameraHelper.update()
 	}
 }
