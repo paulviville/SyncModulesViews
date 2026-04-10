@@ -63,4 +63,7 @@ export default class PointsView extends ViewCore {
 
 		this.#geometry.setAttribute( "position", new BufferAttribute( this.#positions, 3 ) );
 	}
+
+	/// TODO - Optimization
+	/// write individual update of points based on UUID if nbPoints unchanged
 }

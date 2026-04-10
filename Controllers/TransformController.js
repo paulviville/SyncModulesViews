@@ -24,7 +24,6 @@ export default class TransformController extends TransformControls {
 
 	setModule ( module = undefined ) {
 		console.log( `TransformController - setModule` );
-		
 
 		if ( module === undefined ) {
 			this.#module = undefined;
@@ -54,6 +53,8 @@ export default class TransformController extends TransformControls {
 		if ( this.#module === undefined )
 			return;
 
+		if ( !this.dragging ) 
+			return;
 		this.#module.updateTransform(
 			{
 				translation: this.#dummy.position.toArray( ),
