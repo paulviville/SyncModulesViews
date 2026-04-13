@@ -4,6 +4,8 @@ import LineView from "./LineView.js"
 import PrimitiveView from "./PrimitiveView.js"
 import CameraView from "./CameraView.js"
 import PointsView from "./PointsView.js"
+import TextLogView from "./TextLogView.js"
+import TriggerView from "./TriggerView.js"
 
 const ViewTypes = {
 	[ ViewCore.type ]: ViewCore,
@@ -12,6 +14,8 @@ const ViewTypes = {
 	[ PrimitiveView.type ]: PrimitiveView,
 	[ CameraView.type ]: CameraView,
 	[ PointsView.type ]: PointsView,
+	[ TextLogView.type ]: TextLogView,
+	[ TriggerView.type ]: TriggerView,
 };
 
 Object.freeze( ViewTypes );
