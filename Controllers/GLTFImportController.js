@@ -1,6 +1,8 @@
 import { GLTFLoader } from "../../three/loaders/GLTFLoader.js";
 import { DRACOLoader } from "../../three/loaders/DRACOLoader.js";
 import { GLTFExporter } from "../../three/exporters/GLTFExporter.js";
+import { SceneGraph } from "../../SyncModules/GLTFModule.js";
+// import { SceneNode } from "../../SyncModules/GLTFModule.js";
 
 const DRACO_PATH = "../../three/loaders/DracoUtils/";
 
@@ -11,6 +13,7 @@ export default class GLTFImportController {
 	#exporter;
 
 	#file;
+	#sceneGraph;
 
 	constructor ( ) {
 		const dracoLoader = new DRACOLoader( );
@@ -74,7 +77,26 @@ export default class GLTFImportController {
 	}
 
 	#buildSceneGraph ( scene ) {
-		/// todo 
+		const nodes = [];
+
+		scene.traverse( ( obj ) => {
+			// const sceneNode = new SceneNode( obj.userData.uuid );
+			// console.log( sceneNode );
+			// console.log(obj.children, obj.parent)
+			const node = {
+				UUID: obj.userData.uuid,
+				parent: obj.parent?.userData.uuid,
+				children: obj.children.map( cobj => cobj.userData.uuid ),
+				transform: {
+					translation: obj.position.toArray( ),
+					rotation: obj.quaternion.toArray( ),
+					scale: obj.scale.toArray( ),
+				}
+			}
+
+			nodes.push( node );
+			
+		} );
 	}
 
 	#setModuleFile ( scene ) {

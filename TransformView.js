@@ -31,7 +31,6 @@ export default class TransformView extends ViewCore {
 		// console.log( `TransformView - #updateTransform` );
 
 		const { translation, rotation, scale } = transform;
-		// console.log(transform)
 		this.position.fromArray( translation );
 		this.quaternion.fromArray( rotation );
 		this.scale.fromArray( scale );
