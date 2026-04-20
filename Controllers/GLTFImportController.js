@@ -65,10 +65,10 @@ export default class GLTFImportController {
 
 	#parseFileBuffer ( fileBuffer ) {
 		this.#loader.parse( fileBuffer, " ", ( gltf ) => {
-			console.log( gltf )
-			this.#setNodeUUIDs( gltf.scene );
-			this.#buildSceneGraph( gltf.scene );
-			this.#setModuleFile( gltf.scene );
+			console.log(gltf)
+			this.#setNodeUUIDs( gltf.scenes[ 0 ] );
+			this.#buildSceneGraph( gltf.scenes[ 0 ] );
+			this.#setModuleFile( gltf.scenes[ 0 ] );
 		} );
 	}
 
@@ -78,11 +78,8 @@ export default class GLTFImportController {
 
 	#buildSceneGraph ( scene ) {
 		const nodes = [];
-
+		console.log(scene)
 		scene.traverse( ( obj ) => {
-			// const sceneNode = new SceneNode( obj.userData.uuid );
-			// console.log( sceneNode );
-			// console.log(obj.children, obj.parent)
 			const node = {
 				UUID: obj.userData.uuid,
 				parent: obj.parent?.userData.uuid,
@@ -92,16 +89,20 @@ export default class GLTFImportController {
 					rotation: obj.quaternion.toArray( ),
 					scale: obj.scale.toArray( ),
 				}
-			}
+			};
 
 			nodes.push( node );
-			
 		} );
+
+		this.#module.setNodes( nodes, true );
 	}
 
 	#setModuleFile ( scene ) {
+		console.log( scene )
 		this.#exporter.parse( scene,
 			( glb ) => {
+				/// this shit adds a new root "AuxScene"
+				/// TODO: FIX
 				const bytes = new Uint8Array(glb);
 				let binary = '';
 				bytes.forEach(b => binary += String.fromCharCode(b));

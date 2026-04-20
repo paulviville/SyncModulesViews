@@ -7,7 +7,8 @@ import { DRACOLoader } from "../three/loaders/DRACOLoader.js";
 export default class GLTFView extends ViewCore {
 	static type = GLTFModule.type;
 
-	#root;
+	#root = new Set( );
+	#nodeObjects = new Map( );
 
 	constructor ( module ) {
 		console.log( `GLTFView - constructor` );
@@ -17,10 +18,13 @@ export default class GLTFView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `LineView - setCallbacks` );
+		console.log( `GLTFView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.updateFile,
 			( file ) => this.#updateFile( file )
+		);
+		this.module.setOnChange( this.module.commands.updateNodes,
+			( nodes ) => this.#updateNodes( nodes )
 		);
 	}
 
@@ -42,8 +46,31 @@ export default class GLTFView extends ViewCore {
 
 		gltfLoader.parse( buffer, ' ', ( gltf ) => {
 			// console.log( gltf );
-			this.add(gltf.scene)
-			// gltf.scene.traverse ( obj => console.log(obj))
+			/// remove "AuxScene fake root"
+			let scene = gltf.scene;
+			if ( scene.userData.uuid === undefined || scene.name === "AuxScene" )
+				scene = gltf.scene.children[ 0 ];
+			
+			this.add( scene );
+			this.#setObjectsMap( scene );
 		});
+	}
+
+	#setObjectsMap ( scene ) {
+		console.log( scene );
+		let counter = 0;
+		scene.traverse ( obj => {
+			// const nodeUUID = obj.userData 
+			console.log( obj.userData.uuid, obj );
+			this.#nodeObjects.set( obj.userData.uuid, obj );
+			++counter;
+		} );
+
+		console.log( counter )
+	}
+
+	#updateNodes ( nodes ) {
+		console.log( `GLTFView - #updateNodes` );
+		console.log( nodes );
 	}
 }
