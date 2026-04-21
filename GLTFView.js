@@ -45,7 +45,6 @@ export default class GLTFView extends ViewCore {
 		gltfLoader.setDRACOLoader( dracoLoader );
 
 		gltfLoader.parse( buffer, ' ', ( gltf ) => {
-			// console.log( gltf );
 			/// remove "AuxScene fake root"
 			let scene = gltf.scene;
 			if ( scene.userData.uuid === undefined || scene.name === "AuxScene" )
@@ -57,20 +56,34 @@ export default class GLTFView extends ViewCore {
 	}
 
 	#setObjectsMap ( scene ) {
-		console.log( scene );
 		let counter = 0;
 		scene.traverse ( obj => {
-			// const nodeUUID = obj.userData 
-			console.log( obj.userData.uuid, obj );
 			this.#nodeObjects.set( obj.userData.uuid, obj );
-			++counter;
 		} );
-
-		console.log( counter )
 	}
 
 	#updateNodes ( nodes ) {
 		console.log( `GLTFView - #updateNodes` );
-		console.log( nodes );
+
+		for ( const node of nodes ) {
+			const { UUID, parent, children, transform } = node;
+			const object = this.#nodeObjects.get( UUID );
+
+			// if ( parent ) { }
+			// if ( children ) { }
+
+			if ( transform ) {
+				const { translation, rotation, scale } = transform;
+				if ( translation ) {
+					object.position.fromArray( translation );
+				}
+				if ( rotation ) {
+					object.quaternion.fromArray( rotation );
+				}
+				if ( scale ) {
+					object.scale.fromArray( scale );
+				}
+			}
+		}
 	}
 }
