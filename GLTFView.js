@@ -63,14 +63,12 @@ export default class GLTFView extends ViewCore {
 	}
 
 	#updateNodes ( nodes ) {
-		console.log( `GLTFView - #updateNodes` );
-
 		for ( const node of nodes ) {
 			const { UUID, parent, children, transform } = node;
 			const object = this.#nodeObjects.get( UUID );
 
-			// if ( parent ) { }
-			// if ( children ) { }
+			if ( parent ) { }
+			if ( children ) { }
 
 			if ( transform ) {
 				const { translation, rotation, scale } = transform;

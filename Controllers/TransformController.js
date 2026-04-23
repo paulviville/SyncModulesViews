@@ -10,7 +10,6 @@ export default class TransformController extends TransformControls {
 
 		this.attach( this.#dummy );
 
-		this.addEventListener
 		this.addEventListener( 'dragging-changed', 
 			( ) =>  this.#onDraggingChange( )
 		);
