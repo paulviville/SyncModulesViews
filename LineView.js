@@ -1,6 +1,6 @@
 import LineModule from "../SyncModules/LineModule.js";
 import ViewCore from "./ViewCore.js";
-import { Vector3, BufferGeometry, LineBasicMaterial, Line } from "three";
+import { Vector3, BufferGeometry, LineBasicMaterial, Line } from "../three/three.module.js";
 
 export default class LineView extends ViewCore {
 	static type = LineModule.type;

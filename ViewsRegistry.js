@@ -1,7 +1,7 @@
 import ModulesRegistry from "../SyncModules/Core/ModulesRegistry.js";
 import ViewCore from "./ViewCore.js";
 import ViewTypes from "./ViewTypes.js";
-import { PolarGridHelper } from 'three';
+import { PolarGridHelper } from '../three/three.module.js';
 
 export default class ViewsRegistry extends ViewCore {
 	static type = ModulesRegistry.type;

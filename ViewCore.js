@@ -1,4 +1,4 @@
-import { Object3D } from 'three';
+import { Object3D } from '../three/three.module.js';
 import ModuleCore from '../SyncModules/Core/ModuleCore.js';
 
 export default class ViewCore extends Object3D {

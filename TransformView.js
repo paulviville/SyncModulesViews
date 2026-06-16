@@ -1,6 +1,6 @@
 import TransformModule from "../SyncModules/TransformModule.js";
 import ViewCore from "./ViewCore.js";
-import { AxesHelper } from 'three';
+import { AxesHelper } from '../three/three.module.js';
 
 export default class TransformView extends ViewCore {
 	static type = TransformModule.type;

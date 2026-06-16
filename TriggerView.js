@@ -1,4 +1,4 @@
-import { Box3, Box3Helper } from "three";
+import { Box3, Box3Helper } from "../three/three.module.js";
 import TriggerModule from "../SyncModules/TriggerModule.js";
 import ViewCore from "./ViewCore.js";
 

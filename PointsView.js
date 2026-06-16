@@ -1,4 +1,4 @@
-import { Points, PointsMaterial, BufferGeometry, BufferAttribute } from "three";
+import { Points, PointsMaterial, BufferGeometry, BufferAttribute } from "../three/three.module.js";
 import PointsModule from "../SyncModules/PointsModule.js";
 import ViewCore from "./ViewCore.js";
 

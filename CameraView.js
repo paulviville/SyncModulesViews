@@ -1,6 +1,6 @@
 import CameraModule from "../SyncModules/CameraModule.js";
 import TransformView from "./TransformView.js";
-import { CameraHelper, PerspectiveCamera } from "three";
+import { CameraHelper, PerspectiveCamera } from "../three/three.module.js";
 
 export default class CameraView extends TransformView {
 	static type = CameraModule.type;

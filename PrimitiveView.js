@@ -1,6 +1,6 @@
 import PrimitiveModule from "../SyncModules/PrimitiveModule.js";
 import TransformView from "./TransformView.js";
-import { BoxGeometry, Mesh, MeshPhongMaterial, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "three";
+import { BoxGeometry, Mesh, MeshPhongMaterial, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "../three/three.module.js";
 
 export default class PrimitiveView extends TransformView {
 	static type = PrimitiveModule.type;
