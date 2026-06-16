@@ -52,6 +52,7 @@ export default class GLTFView extends ViewCore {
 			
 			this.add( scene );
 			this.#setObjectsMap( scene );
+            this.#updateNodes( )
 		});
 	}
 
@@ -63,6 +64,8 @@ export default class GLTFView extends ViewCore {
 	}
 
 	#updateNodes ( nodes ) {
+        nodes ??= this.module.nodes;
+
 		for ( const node of nodes ) {
 			const { UUID, parent, children, transform } = node;
 			const object = this.#nodeObjects.get( UUID );
