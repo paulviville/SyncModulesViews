@@ -6,13 +6,28 @@ import { SceneGraph } from "../../SyncModules/GLTFModule.js";
 
 const DRACO_PATH = "../../three/loaders/DracoUtils/";
 
+function uuid( ) {
+  return crypto.randomUUID
+    ? crypto.randomUUID()
+    : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+        const r = Math.random() * 16 | 0;
+        const v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+}
+
+
 export default class GLTFImportController {
 	#module;
 
 	#loader;
+	#parser;
 	#exporter;
 
+	#scene;
+
 	#file;
+	#nodesMap;
 	#sceneGraph;
 
 	constructor ( ) {
@@ -55,6 +70,11 @@ export default class GLTFImportController {
 			const { result } = reader;
 			const fileBuffer = this.#getFileBuffer( result );
 			this.#parseFileBuffer( fileBuffer );
+			this.#setModuleGLB( {
+				name: this.#file.name,
+				type: this.#file.type,
+				data: result
+			} );
 		};
 		reader.readAsDataURL( file );
 	}
@@ -66,24 +86,41 @@ export default class GLTFImportController {
 	#parseFileBuffer ( fileBuffer ) {
 		this.#loader.parse( fileBuffer, " ", ( gltf ) => {
 			console.log(gltf)
-			this.#setNodeUUIDs( gltf.scenes[ 0 ] );
+			this.#parser = gltf.parser;
+			this.#buildNodesMap( )
 			this.#buildSceneGraph( gltf.scenes[ 0 ] );
-			this.#setModuleFile( gltf.scenes[ 0 ] );
 		} );
 	}
 
-	#setNodeUUIDs ( scene ) {
-		scene.traverse( ( obj ) => { obj.userData.uuid ??= crypto.randomUUID( )	} );
+	#buildNodesMap ( ) {
+		const nodes = this.#parser.json.nodes;
+		const nodesMap = [ ];
+		this.#nodesMap = new Map( );
+		for ( const nodeId in nodes ) {
+			const nodeUUID = uuid( );
+			const nodeData = { nodeId: parseInt( nodeId ), nodeUUID }
+			nodesMap.push( nodeData );
+			this.#nodesMap.set( nodeData.nodeId, nodeData.nodeUUID );
+		}
+		
+		this.#module.setNodesMap( nodesMap, true );
 	}
 
 	#buildSceneGraph ( scene ) {
+		const associations = this.#parser.associations;
 		const nodes = [];
-		console.log(scene)
 		scene.traverse( ( obj ) => {
+			const nodeUUID = this.#nodesMap.get( associations.get( obj )?.nodes )
+			if ( nodeUUID === undefined )
+				return;
+
+			const parentUUID = this.#nodesMap.get( associations.get( obj.parent )?.nodes );
+			const childrenUUIDs = obj.children.map( cObj => this.#nodesMap.get( associations.get( cObj )?.nodes ) );
+
 			const node = {
-				UUID: obj.userData.uuid,
-				parent: obj.parent?.userData.uuid,
-				children: obj.children.map( cobj => cobj.userData.uuid ),
+				UUID: nodeUUID,
+				parent: parentUUID,
+				children: childrenUUIDs,
 				transform: {
 					translation: obj.position.toArray( ),
 					rotation: obj.quaternion.toArray( ),
@@ -97,23 +134,7 @@ export default class GLTFImportController {
 		this.#module.setNodes( nodes, true );
 	}
 
-	#setModuleFile ( scene ) {
-		console.log( scene )
-		this.#exporter.parse( scene,
-			( glb ) => {
-				/// this shit adds a new root "AuxScene"
-				/// TODO: FIX
-				const bytes = new Uint8Array(glb);
-				let binary = '';
-				bytes.forEach(b => binary += String.fromCharCode(b));
-				const data = btoa( binary );
-				
-				this.#file.data += data;
-
-				this.#module.updateFile( { ...this.#file }, true );
-			},
-			( error ) => console.log( error ),
-			{ binary: true }
-		)
+	#setModuleGLB ( file ) {
+		this.#module.updateFile( { ...file }, true );
 	}
 }

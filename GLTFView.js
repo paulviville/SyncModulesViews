@@ -9,7 +9,8 @@ export default class GLTFView extends ViewCore {
 
 	#root = new Set( );
 	#nodeObjects = new Map( );
-
+	#nodesMap = new Map( );
+	
 	constructor ( module ) {
 		console.log( `GLTFView - constructor` );
 		
@@ -26,7 +27,18 @@ export default class GLTFView extends ViewCore {
 		this.module.setOnChange( this.module.commands.updateNodes,
 			( nodes ) => this.#updateNodes( nodes )
 		);
+
+		this.module.setOnChange( this.module.commands.setNodesMap,
+			( nodesMap ) => this.#setNodesMap( nodesMap )
+		);
 	}
+
+	#setNodesMap ( nodesMap ) {
+		for ( const { nodeId, nodeUUID } of nodesMap ) {
+			this.#nodesMap.set( parseInt( nodeId ), nodeUUID );
+		}
+		console.log("GLTFView", nodesMap)
+	} 
 
 	#updateFile ( file ) {
 		console.log( file );
@@ -45,21 +57,23 @@ export default class GLTFView extends ViewCore {
 		gltfLoader.setDRACOLoader( dracoLoader );
 
 		gltfLoader.parse( buffer, ' ', ( gltf ) => {
-			/// remove "AuxScene fake root"
+			const associations = gltf.parser.associations;
+			// console.log(gltf)
 			let scene = gltf.scene;
-			if ( scene.userData.uuid === undefined || scene.name === "AuxScene" )
-				scene = gltf.scene.children[ 0 ];
+			this.#setMapping( scene, associations )
 			
 			this.add( scene );
-			this.#setObjectsMap( scene );
             this.#updateNodes( )
 		});
 	}
 
-	#setObjectsMap ( scene ) {
-		let counter = 0;
-		scene.traverse ( obj => {
-			this.#nodeObjects.set( obj.userData.uuid, obj );
+	#setMapping ( scene, associations ) {
+		scene.traverse( obj => {
+			const nodeUUID = this.#nodesMap.get( associations.get( obj )?.nodes );
+			if ( nodeUUID === undefined )
+				return;
+			this.#nodeObjects.set( nodeUUID, obj );
+			console.log( obj, nodeUUID )
 		} );
 	}
 
@@ -69,6 +83,9 @@ export default class GLTFView extends ViewCore {
 		for ( const node of nodes ) {
 			const { UUID, parent, children, transform } = node;
 			const object = this.#nodeObjects.get( UUID );
+			console.log(object)
+			if ( object === undefined )
+				return; 
 
 			if ( parent ) { }
 			if ( children ) { }
