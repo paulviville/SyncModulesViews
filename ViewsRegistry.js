@@ -22,10 +22,10 @@ export default class ViewsRegistry extends ViewCore {
 		console.log( `ViewsRegistry - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.addModule,
-			( module ) => this.#addModuleView( module ) 
+			( moduleData ) => this.#addModuleView( moduleData ) 
 		);
 		this.module.setOnChange(this.module.commands.removeModule,
-			( module ) => this.#removeModuleView( module ) 
+			( moduleData ) => this.#removeModuleView( moduleData ) 
 		);
 	}
 
@@ -33,10 +33,12 @@ export default class ViewsRegistry extends ViewCore {
 		return this.#views.get( moduleUUID );
 	}
 
-	#addModuleView ( module ) {
+	#addModuleView ( moduleData ) {
 		console.log( `ViewsRegistry - #addModuleView` );
 
-		const { type, UUID } = module;
+		const { type, UUID } = moduleData;
+		const module = this.module.getModule( UUID );
+
 		const constructor = ViewTypes[ type ] || ViewCore;
 		const view = new constructor( module );
 		
@@ -46,10 +48,10 @@ export default class ViewsRegistry extends ViewCore {
 		return view;
 	}
 
-	#removeModuleView ( module ) {
+	#removeModuleView ( moduleData ) {
 		console.log( `ViewsRegistry - #removeModuleView` );
 
-		const view = this.getView( module.UUID );
+		const view = this.getView( moduleData.UUID );
 		if ( view === undefined ) {
 			return;
 		}
