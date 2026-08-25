@@ -33,7 +33,7 @@ export default class ImageImportController {
 	inputFile ( ) {
 		const input = document.createElement("input");
 		input.type = "file";
-		input.accept = ".png,.jpeg";
+		input.accept = ".png,.jpg";
 
 		input.onchange = ( ) => {
 			const file = input.files[ 0 ];
