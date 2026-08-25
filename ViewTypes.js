@@ -6,6 +6,7 @@ import CameraView from "./CameraView.js"
 import PointsView from "./PointsView.js"
 import TextLogView from "./TextLogView.js"
 import TriggerView from "./TriggerView.js"
+import ImageView from "./ImageView.js"
 import GLTFView from "./GLTFView.js"
 
 const ViewTypes = {
@@ -18,6 +19,7 @@ const ViewTypes = {
 	[ TextLogView.type ]: TextLogView,
 	[ TriggerView.type ]: TriggerView,
 	[ GLTFView.type ]: GLTFView,
+	[ ImageView.type ]: ImageView,
 };
 
 Object.freeze( ViewTypes );
