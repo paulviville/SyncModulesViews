@@ -25,6 +25,9 @@ export default class PointsView extends ViewCore {
 		this.module.setOnChange( this.module.commands.addPoints, 
 			( points ) => this.#updatePoints( points ) 
 		);
+		this.module.setOnChange( this.module.commands.updatePoints, 
+			( points ) => this.#updatePoints( points ) 
+		);
 		this.module.setOnChange( this.module.commands.removePoints, 
 			( points ) => this.#updatePoints( points ) 
 		);
