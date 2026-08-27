@@ -31,8 +31,7 @@ export default class SkeletonView extends ViewCore {
 	}
 
 	#setBones ( bonesData ) {
-		console.log( `SkeletonView - #setBones` );
-		console.log( bonesData );
+		// console.log( `SkeletonView - #setBones` );
 
 		for ( const { UUID } of bonesData ) {
 			const boneObject =  new Bone( );
@@ -58,14 +57,10 @@ export default class SkeletonView extends ViewCore {
 		}
 		this.#skeletonHelper = new SkeletonHelper( this.#roots );
 		this.add( this.#skeletonHelper );
-		console.log( this.#boneObjects );
-		console.log(this.#roots)
-		console.log( this.#skeletonHelper )
 	}
 
 	#setTransforms ( transformsData ) {
-		console.log( `SkeletonView - #setTransforms` );
-		console.log( transformsData );
+		// console.log( `SkeletonView - #setTransforms` );
 
 		let boneObject;
 		for ( const { UUID, transform } of transformsData ) {
@@ -76,7 +71,6 @@ export default class SkeletonView extends ViewCore {
 			boneObject.position.fromArray( transform.translation );
 			boneObject.quaternion.fromArray( transform.rotation );
 			boneObject.scale.fromArray( transform.scale );
-			console.log( boneObject)
 		}
 
 	}
