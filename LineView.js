@@ -25,7 +25,7 @@ export default class LineView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `LineView - setCallbacks` );
+		// console.log( `LineView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.updateLine,
 			( line ) => this.#updateLine( line )
@@ -33,8 +33,7 @@ export default class LineView extends ViewCore {
 	}
 
 	#updateLine ( line ) {
-		console.log( `LineView - #updateLine` );
-		console.log(line)
+		// console.log( `LineView - #updateLine` );
 		const position = this.#lineMesh.geometry.attributes.position;
 		position.array.set( [ ...line.origin, ...line.end ] );
 		position.needsUpdate = true;

@@ -19,7 +19,7 @@ export default class ViewsRegistry extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `ViewsRegistry - setCallbacks` );
+		// console.log( `ViewsRegistry - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.addModule,
 			( moduleData ) => this.#addModuleView( moduleData ) 
@@ -49,7 +49,7 @@ export default class ViewsRegistry extends ViewCore {
 	}
 
 	#removeModuleView ( moduleData ) {
-		console.log( `ViewsRegistry - #removeModuleView` );
+		// console.log( `ViewsRegistry - #removeModuleView` );
 
 		const view = this.getView( moduleData.UUID );
 		if ( view === undefined ) {

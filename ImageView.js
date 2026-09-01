@@ -22,7 +22,7 @@ export default class ImageView extends TransformView {
 	}
 
 	setCallbacks ( ) {
-		console.log( `ImageView - setCallbacks` );
+		// console.log( `ImageView - setCallbacks` );
 
 		super.setCallbacks( );
 		this.module.setOnChange( this.module.commands.setImage,
@@ -31,7 +31,7 @@ export default class ImageView extends TransformView {
 	}
 
 	#setImage ( image ) {
-		console.log( `ImageView - #setImage` );
+		// console.log( `ImageView - #setImage` );
 
 		if ( image === undefined ) 
 			return;

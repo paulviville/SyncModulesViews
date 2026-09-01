@@ -36,7 +36,6 @@ export default class CameraView extends TransformView {
 		this.#cameraHelper.camera.near = near;
 		this.#cameraHelper.camera.far = far;
 		this.#cameraHelper.camera.updateProjectionMatrix( );
-		// console.log(this.#cameraHelper)
 		this.#cameraHelper.update()
 	}
 }

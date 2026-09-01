@@ -67,7 +67,6 @@ export default class SkeletonView extends ViewCore {
 			boneObject = this.#boneObjects.get( UUID );
 			if ( boneObject === undefined )
 				continue;
-
 			boneObject.position.fromArray( transform.translation );
 			boneObject.quaternion.fromArray( transform.rotation );
 			boneObject.scale.fromArray( transform.scale );

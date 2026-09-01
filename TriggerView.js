@@ -20,7 +20,7 @@ export default class TriggerView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `TriggerView - setCallbacks` );
+		// console.log( `TriggerView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.trigger,
 			( ) => this.#trigger( )
@@ -28,11 +28,11 @@ export default class TriggerView extends ViewCore {
 	}
 
 	#trigger ( ) {
-		console.log( `TriggerView - triggered` );
+		// console.log( `TriggerView - triggered` );
 		this.#boxHelper.visible = true;
 		setTimeout( ( ) => {
 			this.#boxHelper.visible = false
-			console.log("timeout")
+			// console.log("timeout")
 		}, 1000);
 	}
 }

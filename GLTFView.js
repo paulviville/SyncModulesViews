@@ -19,7 +19,7 @@ export default class GLTFView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		console.log( `GLTFView - setCallbacks` );
+		// console.log( `GLTFView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.updateFile,
 			( file ) => this.#updateFile( file )
