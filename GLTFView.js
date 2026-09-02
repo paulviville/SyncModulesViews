@@ -19,7 +19,7 @@ export default class GLTFView extends ViewCore {
 	}
 
 	setCallbacks ( ) {
-		// console.log( `GLTFView - setCallbacks` );
+		console.log( `GLTFView - setCallbacks` );
 
 		this.module.setOnChange( this.module.commands.updateFile,
 			( file ) => this.#updateFile( file )
@@ -27,7 +27,6 @@ export default class GLTFView extends ViewCore {
 		this.module.setOnChange( this.module.commands.updateNodes,
 			( nodes ) => this.#updateNodes( nodes )
 		);
-
 		this.module.setOnChange( this.module.commands.setNodesMap,
 			( nodesMap ) => this.#setNodesMap( nodesMap )
 		);
@@ -41,7 +40,6 @@ export default class GLTFView extends ViewCore {
 	} 
 
 	#updateFile ( file ) {
-		console.log( file );
 		const base64 = file.data.split( ',' )[ 1 ];
 		const binary = atob( base64 );
 		const bytes = new Uint8Array( binary.length );
@@ -58,32 +56,36 @@ export default class GLTFView extends ViewCore {
 
 		gltfLoader.parse( buffer, ' ', ( gltf ) => {
 			const associations = gltf.parser.associations;
-			// console.log(gltf)
 			let scene = gltf.scene;
-			this.#setMapping( scene, associations )
-			
-			this.add( scene );
-            this.#updateNodes( )
+			this.#setMapping( scene, gltf.parser ).then( 
+				() => {
+					this.add( scene );
+					this.#updateNodes( )
+				}
+			)
 		});
 	}
 
-	#setMapping ( scene, associations ) {
-		scene.traverse( obj => {
-			const nodeUUID = this.#nodesMap.get( associations.get( obj )?.nodes );
+	async #setMapping ( scene, parser ) {
+		const nodes = parser.json.nodes;
+		for ( const nodeId in nodes ) {
+			const nodeUUID = this.#nodesMap.get( parseInt( nodeId ) );
+			
 			if ( nodeUUID === undefined )
-				return;
-			this.#nodeObjects.set( nodeUUID, obj );
-			console.log( obj, nodeUUID )
-		} );
-	}
+				continue;
 
+			const obj = await parser.getDependency("node", nodeId);
+			this.#nodeObjects.set( nodeUUID, obj );
+		}
+	}
+	
 	#updateNodes ( nodes ) {
         nodes ??= this.module.nodes;
 
 		for ( const node of nodes ) {
 			const { UUID, parent, children, transform } = node;
 			const object = this.#nodeObjects.get( UUID );
-			console.log(object)
+			// console.log(object)
 			if ( object === undefined )
 				return; 
 
