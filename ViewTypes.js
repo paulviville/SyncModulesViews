@@ -10,6 +10,7 @@ import ImageView from "./ImageView.js"
 import Image360View from "./Image360View.js"
 import GLTFView from "./GLTFView.js"
 import SkeletonView from "./SkeletonView.js"
+import DisplaysView from "./DisplaysView.js"
 
 const ViewTypes = {
 	[ ViewCore.type ]: ViewCore,
@@ -24,6 +25,7 @@ const ViewTypes = {
 	[ ImageView.type ]: ImageView,
 	[ SkeletonView.type ]: SkeletonView,
 	[ Image360View.type ]: Image360View,
+	[ DisplaysView.type ]: DisplaysView,
 };
 
 Object.freeze( ViewTypes );
