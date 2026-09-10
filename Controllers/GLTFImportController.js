@@ -107,31 +107,27 @@ export default class GLTFImportController {
 	}
 
 	#buildSceneGraph ( scene ) {
-		const associations = this.#parser.associations;
-		const nodes = [];
-		scene.traverse( ( obj ) => {
-			const nodeUUID = this.#nodesMap.get( associations.get( obj )?.nodes )
-			if ( nodeUUID === undefined )
-				return;
+		const nodes = this.#parser.json.nodes;
+		const nodesData = [ ];
 
-			const parentUUID = this.#nodesMap.get( associations.get( obj.parent )?.nodes );
-			const childrenUUIDs = obj.children.map( cObj => this.#nodesMap.get( associations.get( cObj )?.nodes ) );
+		for ( const nodeId in nodes ) {
 
-			const node = {
+			const { children, translation, rotation, scale } = nodes[ nodeId ];
+
+			const nodeUUID = this.#nodesMap.get( parseInt( nodeId ) );
+
+			const nodeData = {
 				UUID: nodeUUID,
-				parent: parentUUID,
-				children: childrenUUIDs,
+				children: children?.map( childId => this.#nodesMap.get( parseInt( childId ) ) ),
 				transform: {
-					translation: obj.position.toArray( ),
-					rotation: obj.quaternion.toArray( ),
-					scale: obj.scale.toArray( ),
+					translation: translation?.map( s => parseFloat( s ) ),
+					scale: scale?.map( s => parseFloat( s ) ),
+					rotation: rotation?.map( s => parseFloat( s ) ),
 				}
-			};
-
-			nodes.push( node );
-		} );
-
-		this.#module.setNodes( nodes, true );
+			}
+			nodesData.push( nodeData );
+		}
+		this.#module.setNodes( nodesData, true );
 	}
 
 	#setModuleGLB ( file ) {
