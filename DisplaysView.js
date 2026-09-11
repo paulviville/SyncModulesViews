@@ -34,8 +34,7 @@ export default class DisplaysView extends TransformView {
 	}
 
 	#addDisplay ( display ) {
-		console.log( `DisplaysView - addDisplay` );
-		console.log( display );
+		// console.log( `DisplaysView - addDisplay` );
 
 		const { corners } = display;
 
@@ -68,7 +67,7 @@ export default class DisplaysView extends TransformView {
 	}
 
 	#setMatrices ( matrices ) {
-		console.log( `DisplaysView - setMatrices` );
+		// console.log( `DisplaysView - setMatrices` );
 
 		const cameraHelper = this.#cameraObjects.get( matrices.UUID );
 
