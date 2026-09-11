@@ -6,7 +6,9 @@ export default class DisplaysView extends TransformView {
 	static type = DisplaysModule.type;
 
 	#displayObjects = new Map( );
+	#cameraObjects = new Map( );
 	#displayGroup = new THREE.Group( );
+	#cameraGroup = new THREE.Group( );
 
 	constructor ( module ) {
 		// console.log( `DisplaysView - constructor` );
@@ -14,6 +16,7 @@ export default class DisplaysView extends TransformView {
 		super( module );
 
 		this.add( this.#displayGroup );
+		this.add( this.#cameraGroup );
 	}
 
 	setCallbacks ( ) {
@@ -24,9 +27,13 @@ export default class DisplaysView extends TransformView {
 		this.module.setOnChange( this.module.commands.addDisplay, 
 			( display ) => this.#addDisplay( display ) 
 		);
+
+		this.module.setOnChange( this.module.commands.setMatrices, 
+			( matrices ) => this.#setMatrices( matrices ) 
+		);
 	}
 
-	#addDisplay( display ) {
+	#addDisplay ( display ) {
 		console.log( `DisplaysView - addDisplay` );
 		console.log( display );
 
@@ -50,7 +57,33 @@ export default class DisplaysView extends TransformView {
 		const displayObject = new THREE.Group( );
 		displayObject.add( displayEdges, displayQuad );
 		this.#displayGroup.add( displayObject );
-
+		this.#displayObjects.set( display.UUID, displayObject );
 		// this.add( this.#screenEdge, this.#screenFace );
+
+		const camera = new THREE.PerspectiveCamera( );
+		camera.matrixAutoUpdate = false;
+		const cameraHelper = new THREE.CameraHelper( camera );
+		this.#cameraObjects.set( display.UUID, cameraHelper );
+		this.#cameraGroup.add( cameraHelper );
+	}
+
+	#setMatrices ( matrices ) {
+		console.log( `DisplaysView - setMatrices` );
+
+		const cameraHelper = this.#cameraObjects.get( matrices.UUID );
+
+		cameraHelper.camera.matrixWorld.fromArray( matrices.view ).invert( );
+		cameraHelper.camera.projectionMatrixInverse.fromArray( matrices.projection ).invert( );
+		cameraHelper.update( );
 	}
 }
+
+		// const camera = new THREE.PerspectiveCamera( );
+		// camera.matrixAutoUpdate = false;
+		// const cameraHelper = new THREE.CameraHelper( camera );
+		// clientManager.sceneController.scene.add( cameraHelper );
+		// camera.matrixWorldInverse.copy( matrices.view );
+		// camera.matrixWorld.copy( matrices.view ).invert( );
+		// camera.projectionMatrix.copy( matrices.projection );
+		// camera.projectionMatrixInverse.copy( matrices.projection ).invert( );
+		// cameraHelper.update( );
