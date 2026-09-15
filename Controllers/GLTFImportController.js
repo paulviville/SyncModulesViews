@@ -1,6 +1,7 @@
 import { GLTFLoader } from "../../three/loaders/GLTFLoader.js";
 import { DRACOLoader } from "../../three/loaders/DRACOLoader.js";
 import { GLTFExporter } from "../../three/exporters/GLTFExporter.js";
+import { Vector3, Matrix4, Quaternion } from 'three';
 import { SceneGraph } from "../../SyncModules/GLTFModule.js";
 // import { SceneNode } from "../../SyncModules/GLTFModule.js";
 
@@ -15,7 +16,6 @@ function uuid( ) {
         return v.toString(16);
       });
 }
-
 
 export default class GLTFImportController {
 	#module;
@@ -109,24 +109,39 @@ export default class GLTFImportController {
 	#buildSceneGraph ( scene ) {
 		const nodes = this.#parser.json.nodes;
 		const nodesData = [ ];
+			console.log( nodes )
 
 		for ( const nodeId in nodes ) {
 
-			const { children, translation, rotation, scale } = nodes[ nodeId ];
-
+			const { children, translation, rotation, scale, matrix } = nodes[ nodeId ];
+			console.log( { children, translation, rotation, scale, matrix } )
 			const nodeUUID = this.#nodesMap.get( parseInt( nodeId ) );
+
+			const transform = {
+				translation: translation?.map( s => parseFloat( s ) ),
+				scale: scale?.map( s => parseFloat( s ) ),
+				rotation: rotation?.map( s => parseFloat( s ) ),
+			}
+
+			if ( matrix !== undefined ) {
+				const t = new Vector3( );
+				const r = new Quaternion( );
+				const s = new Vector3( );
+				( new Matrix4( ).fromArray( matrix ) ).decompose( t, r, s );
+
+				transform.translation = t.toArray( );
+				transform.rotation = r.toArray( );
+				transform.scale = s.toArray( );
+			}
 
 			const nodeData = {
 				UUID: nodeUUID,
 				children: children?.map( childId => this.#nodesMap.get( parseInt( childId ) ) ),
-				transform: {
-					translation: translation?.map( s => parseFloat( s ) ),
-					scale: scale?.map( s => parseFloat( s ) ),
-					rotation: rotation?.map( s => parseFloat( s ) ),
-				}
+				transform: transform,
 			}
 			nodesData.push( nodeData );
 		}
+		console.log( nodesData )
 		this.#module.setNodes( nodesData, true );
 	}
 
