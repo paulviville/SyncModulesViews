@@ -69,11 +69,12 @@ export default class GLTFImportController {
 		reader.onload = ( ) => {
 			const { result } = reader;
 			const fileBuffer = this.#getFileBuffer( result );
-			this.#parseFileBuffer( fileBuffer );
-			this.#setModuleGLB( {
-				name: this.#file.name,
-				type: this.#file.type,
-				data: result
+			this.#parseFileBuffer( fileBuffer ).then( ( ) => {
+				this.#setModuleGLB( {
+					name: this.#file.name,
+					type: this.#file.type,
+					data: result
+				} );
 			} );
 		};
 		reader.readAsDataURL( file );
@@ -83,9 +84,9 @@ export default class GLTFImportController {
 		return Uint8Array.from( atob( fileData.split( ',' )[ 1 ] ), c => c.charCodeAt(0) ).buffer;
 	}
 
-	#parseFileBuffer ( fileBuffer ) {
+	async #parseFileBuffer ( fileBuffer ) {
 		this.#loader.parse( fileBuffer, " ", ( gltf ) => {
-			console.log(gltf)
+			// console.log(gltf)
 			this.#parser = gltf.parser;
 			this.#buildNodesMap( )
 			this.#buildSceneGraph( gltf.scenes[ 0 ] );
@@ -109,12 +110,10 @@ export default class GLTFImportController {
 	#buildSceneGraph ( scene ) {
 		const nodes = this.#parser.json.nodes;
 		const nodesData = [ ];
-			console.log( nodes )
 
 		for ( const nodeId in nodes ) {
 
 			const { children, translation, rotation, scale, matrix } = nodes[ nodeId ];
-			console.log( { children, translation, rotation, scale, matrix } )
 			const nodeUUID = this.#nodesMap.get( parseInt( nodeId ) );
 
 			const transform = {
@@ -141,7 +140,6 @@ export default class GLTFImportController {
 			}
 			nodesData.push( nodeData );
 		}
-		console.log( nodesData )
 		this.#module.setNodes( nodesData, true );
 	}
 

@@ -36,7 +36,6 @@ export default class GLTFView extends ViewCore {
 		for ( const { nodeId, nodeUUID } of nodesMap ) {
 			this.#nodesMap.set( parseInt( nodeId ), nodeUUID );
 		}
-		console.log("GLTFView", nodesMap)
 	} 
 
 	#updateFile ( file ) {
@@ -58,7 +57,7 @@ export default class GLTFView extends ViewCore {
 			const associations = gltf.parser.associations;
 			let scene = gltf.scene;
 			this.#setMapping( scene, gltf.parser ).then( 
-				() => {
+				( ) => {
 					this.add( scene );
 					this.#updateNodes( )
 				}
