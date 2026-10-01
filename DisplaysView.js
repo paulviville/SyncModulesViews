@@ -31,6 +31,10 @@ export default class DisplaysView extends TransformView {
 		this.module.setOnChange( this.module.commands.setMatrices, 
 			( matrices ) => this.#setMatrices( matrices ) 
 		);
+
+		this.module.setOnChange( this.module.commands.updateTransform, 
+			( transform ) => this.#updateTransform( transform ) 
+		);
 	}
 
 	#addDisplay ( display ) {
@@ -69,12 +73,29 @@ export default class DisplaysView extends TransformView {
 	#setMatrices ( matrices ) {
 		// console.log( `DisplaysView - setMatrices` );
 
+
+
+
 		const cameraHelper = this.#cameraObjects.get( matrices.UUID );
 
 		cameraHelper.camera.matrixWorld.fromArray( matrices.view ).invert( );
 		cameraHelper.camera.projectionMatrixInverse.fromArray( matrices.projection ).invert( );
 		cameraHelper.update( );
 	}
+
+	#updateTransform ( transform ) {
+		console.log( `DisplaysView - updateTransform` );
+		console.log( this )
+		console.log( this.matrixWorld )
+		console.log( transform )
+		// const invWorldMatrix = this.matrixWorld.clone( ).invert( );
+		if( transform.translation ) {
+			this.#cameraGroup.position.fromArray( transform.translation ).negate();
+		}
+		if( transform.scale ) {
+			this.#cameraGroup.scale.set( 1 / transform.scale[ 0 ], 1 / transform.scale[ 1 ], 1 / transform.scale[ 2 ] );
+		}
+	} 
 }
 
 		// const camera = new THREE.PerspectiveCamera( );

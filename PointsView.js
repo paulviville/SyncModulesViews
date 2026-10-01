@@ -11,17 +11,19 @@ export default class PointsView extends ViewCore {
 	#nbPoints = 0;
 	#positions = new Float32Array( 3 * this.#size );
 	#geometry = new BufferGeometry( );
-	#material = new PointsMaterial( { size : 0.01, color : 0xFF0000 } );
+	#material = new PointsMaterial( { size : 0.1, color : 0xFF0000 } );
 	#pointCloud = new Points( this.#geometry, this.#material );
 
 	constructor ( module ) {
 		super( module );
+
 		this.#updatePoints( module.points );
 		this.add( this.#pointCloud );
 	}
 
 	setCallbacks ( ) {
 		super.setCallbacks( );
+		
 		this.module.setOnChange( this.module.commands.addPoints, 
 			( points ) => this.#updatePoints( points ) 
 		);

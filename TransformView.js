@@ -29,11 +29,12 @@ export default class TransformView extends ViewCore {
 
 	#updateTransform ( transform ) {
 		// console.log( `TransformView - #updateTransform` );
-
+		// console.log( transform )
 		const { translation, rotation, scale } = transform;
 		this.position.fromArray( translation );
 		this.quaternion.fromArray( rotation );
 		this.scale.fromArray( scale );
+		// console.log( this )
 	}
 
 	delete ( ) {
