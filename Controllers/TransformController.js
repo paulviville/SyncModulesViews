@@ -34,6 +34,7 @@ export default class TransformController extends TransformControls {
 		if ( module.updateTransform === undefined ) {
 			console.warn( `TransformController: ${ module.type } does not have updateTransform method` );
 			this.#module = undefined;
+			this.getHelper( ).visible = true;
 			return;
 		}
 
