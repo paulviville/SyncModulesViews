@@ -1,6 +1,6 @@
 import PrimitiveModule from "../SyncModules/PrimitiveModule.js";
 import TransformView from "./TransformView.js";
-import { BoxGeometry, Mesh, MeshPhongMaterial, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "../three/three.module.js";
+import { ConeGeometry, BoxGeometry, Mesh, MeshPhongMaterial, CapsuleGeometry, PlaneGeometry, SphereGeometry, CylinderGeometry } from "../three/three.module.js";
 
 export default class PrimitiveView extends TransformView {
 	static type = PrimitiveModule.type;
@@ -38,6 +38,9 @@ export default class PrimitiveView extends TransformView {
 				break;
 			case primitiveTypes.Cylinder:
 				this.#geometry = new CylinderGeometry(0.5, 0.5, 1.0, 16, 1);
+				break;
+			case primitiveTypes.Cone:
+				this.#geometry = new ConeGeometry(0.5, 1.0, 16);
 				break;
 			case primitiveTypes.Quad:
 				this.#geometry = new PlaneGeometry(1.0, 1.0, 1, 1);
