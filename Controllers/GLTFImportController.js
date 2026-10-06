@@ -56,6 +56,18 @@ export default class GLTFImportController {
 		input.click();
 	}
 
+	loadFile ( path, name = "fileName.glb" ) {
+		fetch( path ).then( response => {
+			return response.blob( )
+		} ).then( blob => {
+			const file = new File( [ blob ], name, {
+				type: "model/gltf-binary"
+			} );
+
+			this.#readFile( file );
+		} );
+	}
+
 	#readFile ( file ) {
 		console.log( "GLTFImportController - #readFile" );
 
