@@ -11,6 +11,8 @@ export default class GLTFView extends ViewCore {
 	#nodeObjects = new Map( );
 	#nodesMap = new Map( );
 	
+	#initFunc;
+
 	constructor ( module ) {
 		console.log( `GLTFView - constructor` );
 		
@@ -36,6 +38,10 @@ export default class GLTFView extends ViewCore {
 		for ( const { nodeId, nodeUUID } of nodesMap ) {
 			this.#nodesMap.set( parseInt( nodeId ), nodeUUID );
 		}
+		if ( this.#initFunc !== undefined ) {
+			this.#initFunc( );
+			this.#initFunc = undefined;
+		}
 	} 
 
 	#updateFile ( file ) {
@@ -56,12 +62,20 @@ export default class GLTFView extends ViewCore {
 		gltfLoader.parse( buffer, ' ', ( gltf ) => {
 			const associations = gltf.parser.associations;
 			let scene = gltf.scene;
-			this.#setMapping( scene, gltf.parser ).then( 
-				( ) => {
-					this.add( scene );
-					this.#updateNodes( )
-				}
-			)
+
+			this.#initFunc = ( ) => {
+				this.#setMapping( scene, gltf.parser ).then( 
+					( ) => {
+						this.add( scene );
+						this.#updateNodes( )
+					}
+				)
+			}
+
+			if( this.#nodesMap.size != 0 ) {
+				this.#initFunc( );
+				this.#initFunc = undefined;
+			}
 		});
 	}
 
@@ -84,7 +98,7 @@ export default class GLTFView extends ViewCore {
 		for ( const node of nodes ) {
 			const { UUID, parent, children, transform } = node;
 			const object = this.#nodeObjects.get( UUID );
-			// console.log(object)
+
 			if ( object === undefined )
 				return; 
 
