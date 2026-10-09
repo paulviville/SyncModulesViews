@@ -15,6 +15,7 @@ export default class PrimitiveView extends TransformView {
 		super( module );
 
 		this.#updatePrimitive( module.primitive );
+		this.#updateColor( module.color );
 		this.add( this.#mesh );
 	}
 
@@ -24,6 +25,10 @@ export default class PrimitiveView extends TransformView {
 		super.setCallbacks( );
 		this.module.setOnChange( this.module.commands.updatePrimitive, 
 			( primitive ) => this.#updatePrimitive( primitive ) 
+		);
+
+		this.module.setOnChange( this.module.commands.updateColor, 
+			( color ) => this.#updateColor( color ) 
 		);
 	}
 
@@ -56,6 +61,12 @@ export default class PrimitiveView extends TransformView {
 
 		this.#mesh.geometry.dispose( );
 		this.#mesh.geometry = this.#geometry;
+	}
+	
+	#updateColor ( color ) {
+		console.log( color )
+		this.#material.color.fromArray( color );
+
 	}
 
 	delete ( ) {
