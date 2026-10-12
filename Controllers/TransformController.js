@@ -22,7 +22,7 @@ export default class TransformController extends TransformControls {
 	}
 
 	setModule ( module = undefined ) {
-		console.log( `TransformController - setModule` );
+		// console.log( `TransformController - setModule` );
 
 		if ( module === undefined ) {
 			this.#module = undefined;
