@@ -1,7 +1,7 @@
 import Image360Module from "../SyncModules/Image360Module.js";
 import TransformView from "./TransformView.js";
 import ViewCore from "./ViewCore.js";
-import { DoubleSide, PlaneGeometry, MeshBasicMaterial, Mesh, Texture, SphereGeometry } from "three";
+import { DoubleSide, PlaneGeometry, MeshBasicMaterial, Mesh, Texture, SphereGeometry } from "../three/three.module.js";
 
 export default class Image360View extends TransformView {
 	static type = Image360Module.type;

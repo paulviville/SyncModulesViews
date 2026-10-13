@@ -1,7 +1,7 @@
 import ImageModule from "../SyncModules/ImageModule.js";
 import TransformView from "./TransformView.js";
 import ViewCore from "./ViewCore.js";
-import { DoubleSide, PlaneGeometry, MeshBasicMaterial, Mesh, Texture } from "three";
+import { DoubleSide, PlaneGeometry, MeshBasicMaterial, Mesh, Texture } from "../three/three.module.js";
 
 export default class ImageView extends TransformView {
 	static type = ImageModule.type;
