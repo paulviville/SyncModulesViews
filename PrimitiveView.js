@@ -64,7 +64,6 @@ export default class PrimitiveView extends TransformView {
 	}
 	
 	#updateColor ( color ) {
-		console.log( color )
 		this.#material.color.fromArray( color );
 		this.#material.transparent = color[ 3 ] == 1 ? false : true;
 		this.#material.opacity = color[ 3 ];
