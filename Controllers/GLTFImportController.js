@@ -1,7 +1,7 @@
 import { GLTFLoader } from "../../three/loaders/GLTFLoader.js";
 import { DRACOLoader } from "../../three/loaders/DRACOLoader.js";
 import { GLTFExporter } from "../../three/exporters/GLTFExporter.js";
-import { Vector3, Matrix4, Quaternion } from 'three';
+import { Vector3, Matrix4, Quaternion } from "../../three/three.module.js";
 import { SceneGraph } from "../../SyncModules/GLTFModule.js";
 // import { SceneNode } from "../../SyncModules/GLTFModule.js";
 

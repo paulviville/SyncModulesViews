@@ -1,5 +1,5 @@
-import { TransformControls } from "controls/TransformControls.js";
-import { Object3D } from 'three';
+import { TransformControls } from "../../three/controls/TransformControls.js";
+import { Object3D } from '../../three/three.module.js';
 
 export default class TransformController extends TransformControls {
 	#dummy = new Object3D( );
@@ -44,8 +44,8 @@ export default class TransformController extends TransformControls {
 		this.#dummy.position.fromArray( transform.translation );
 		this.#dummy.quaternion.fromArray( transform.rotation );
 		this.#dummy.scale.fromArray( transform.scale );
-
-		this.enabled = true;
+	
+        this.enabled = true;
 		this.getHelper( ).visible = true;	
 	}
 
