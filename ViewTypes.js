@@ -13,6 +13,7 @@ import SkeletonView from "./SkeletonView.js"
 import DisplaysView from "./DisplaysView.js"
 import BezierCurveView from "./BezierCurveView.js"
 import BezierPatchView from "./BezierPatchView.js"
+import PointLightView from "./PointLightView.js"
 
 const ViewTypes = {
 	[ ViewCore.type ]: ViewCore,
@@ -30,6 +31,7 @@ const ViewTypes = {
 	[ DisplaysView.type ]: DisplaysView,
 	[ BezierCurveView.type ]: BezierCurveView,
 	[ BezierPatchView.type ]: BezierPatchView,
+	[ PointLightView.type ]: PointLightView,
 };
 
 Object.freeze( ViewTypes );
