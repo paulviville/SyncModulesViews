@@ -45,7 +45,7 @@ export default class ImageView extends TransformView {
 
         const blob = new Blob([bytes], {type: mime });
 
-        createImageBitmap( blob ).then( ( img ) => {
+        createImageBitmap( blob, { imageOrientation: "flipY"} ).then( ( img ) => {
 			const texture = new Texture( img );
 			texture.needsUpdate = true
 			this.#quadMesh.material.map = texture;
