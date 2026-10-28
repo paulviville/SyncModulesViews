@@ -36,13 +36,33 @@ export default class Image360View extends TransformView {
 		if ( image === undefined ) 
 			return;
 
-		const img = new Image( );
-		img.onload = ( ) => {
+        const parts = image.split(",");
+        const mime = parts[0].match(/:(.*?);/)[1];
+        const binary = atob(parts[1]);
+        const bytes = new Uint8Array( binary.length );
+        for( let i = 0; i < binary.length; ++i)
+            bytes[i] = binary.charCodeAt(i);
+
+        const blob = new Blob([bytes], {type: mime });
+
+        createImageBitmap( blob ).then( ( img ) => {
 			const texture = new Texture( img );
 			texture.needsUpdate = true
 			this.#sphereMesh.material.map = texture;
 			this.#sphereMesh.material.needsUpdate = true;
-		}
-		img.src = image;
+
+			const { width, height } = img;
+			const aspect = width / height;
+			this.#sphereMesh.scale.set( aspect, 1, 1 );
+        } );
+
+		// const img = new Image( );
+		// img.onload = ( ) => {
+		// 	const texture = new Texture( img );
+		// 	texture.needsUpdate = true
+		// 	this.#sphereMesh.material.map = texture;
+		// 	this.#sphereMesh.material.needsUpdate = true;
+		// }
+		// img.src = image;
 	}
 }

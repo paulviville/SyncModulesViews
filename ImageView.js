@@ -36,8 +36,16 @@ export default class ImageView extends TransformView {
 		if ( image === undefined ) 
 			return;
 
-		const img = new Image( );
-		img.onload = ( ) => {
+        const parts = image.split(",");
+        const mime = parts[0].match(/:(.*?);/)[1];
+        const binary = atob(parts[1]);
+        const bytes = new Uint8Array( binary.length );
+        for( let i = 0; i < binary.length; ++i)
+            bytes[i] = binary.charCodeAt(i);
+
+        const blob = new Blob([bytes], {type: mime });
+
+        createImageBitmap( blob ).then( ( img ) => {
 			const texture = new Texture( img );
 			texture.needsUpdate = true
 			this.#quadMesh.material.map = texture;
@@ -46,7 +54,18 @@ export default class ImageView extends TransformView {
 			const { width, height } = img;
 			const aspect = width / height;
 			this.#quadMesh.scale.set( aspect, 1, 1 );
-		}
-		img.src = image;
+        } );
+		// const img = new Image( );
+		// img.onload = ( ) => {
+		// 	const texture = new Texture( img );
+		// 	texture.needsUpdate = true
+		// 	this.#quadMesh.material.map = texture;
+		// 	this.#quadMesh.material.needsUpdate = true;
+
+		// 	const { width, height } = img;
+		// 	const aspect = width / height;
+		// 	this.#quadMesh.scale.set( aspect, 1, 1 );
+		// }
+		// img.src = image;
 	}
 }
