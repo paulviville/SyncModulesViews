@@ -14,6 +14,7 @@ import DisplaysView from "./DisplaysView.js"
 import BezierCurveView from "./BezierCurveView.js"
 import BezierPatchView from "./BezierPatchView.js"
 import PointLightView from "./PointLightView.js"
+import AmbientLightView from "./AmbientLightView.js"
 
 const ViewTypes = {
 	[ ViewCore.type ]: ViewCore,
@@ -32,6 +33,7 @@ const ViewTypes = {
 	[ BezierCurveView.type ]: BezierCurveView,
 	[ BezierPatchView.type ]: BezierPatchView,
 	[ PointLightView.type ]: PointLightView,
+	[ AmbientLightView.type ]: AmbientLightView,
 };
 
 Object.freeze( ViewTypes );

@@ -14,20 +14,31 @@ export default class PointLightView extends LightView {
 		
 		super( module );
 
-		this.#updateCamera( module.camera );
+		this.#setDecay( module.decay );
+		this.#setDistance( module.distance );
 		this.add( this.#pointLight );
 		this.add( this.#pointLightHelper );
 	}
 
 	setCallbacks ( ) {
 		super.setCallbacks( );
-		// this.module.setOnChange( this.module.commands.updateCamera, 
-		// 	( camera ) => this.#updateCamera( camera ) 
-		// );
+
+		this.module.setOnChange( this.module.commands.setDecay, 
+			( decay ) => this.#setDecay( decay ) 
+		);
+		this.module.setOnChange( this.module.commands.setDistance, 
+			( distance ) => this.#setDistance( distance ) 
+		);
 	}
 
-	#updateCamera ( camera ) {
+	#setDecay ( decay ) {
+		this.light.decay = decay;
+		this.helper.update( );
+	}
 
+	#setDistance ( distance ) {
+		this.light.distance = distance;
+		this.helper.update( );
 	}
 
 	get light ( ) {
