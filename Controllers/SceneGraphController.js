@@ -1,5 +1,5 @@
-import { TransformControls } from "controls/TransformControls.js";
-import { Object3D } from 'three';
+import { TransformControls } from "../../three/controls/TransformControls.js";
+import { Object3D } from '../../three/three.module.js';
 
 export default class SceneGraphController extends TransformControls {
 	#dummy = new Object3D( );
