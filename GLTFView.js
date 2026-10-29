@@ -7,6 +7,7 @@ import { DRACOLoader } from "../three/loaders/DRACOLoader.js";
 export default class GLTFView extends ViewCore {
 	static type = GLTFModule.type;
 
+	#prior = undefined;
 	#root = new Set( );
 	#nodeObjects = new Map( );
 	#nodesMap = new Map( );
@@ -45,6 +46,12 @@ export default class GLTFView extends ViewCore {
 	} 
 
 	#updateFile ( file ) {
+		if ( file.data === undefined )
+			return;
+
+		if ( this.#prior !== undefined )
+			this.remove( this.#prior );
+
 		const base64 = file.data.split( ',' )[ 1 ];
 		const binary = atob( base64 );
 		const bytes = new Uint8Array( binary.length );
@@ -67,6 +74,7 @@ export default class GLTFView extends ViewCore {
 				this.#setMapping( scene, gltf.parser ).then( 
 					( ) => {
 						this.add( scene );
+						this.#prior = scene;
 						this.#updateNodes( )
 					}
 				)
