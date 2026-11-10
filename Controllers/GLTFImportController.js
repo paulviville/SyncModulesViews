@@ -68,6 +68,53 @@ export default class GLTFImportController {
 		} );
 	}
 
+	preload ( path, name = "fileName.glb" ) {
+		fetch( path ).then( response => {
+			return response.blob( )
+		} ).then( blob => {
+			const file = new File( [ blob ], name, {
+				type: "model/gltf-binary"
+			} );
+
+			this.#file = {
+				name: file.name,
+				type: file.type,
+				data: 'data:model/gltf-binary;base64,',
+			}
+
+			const reader = new FileReader( );
+			reader.onload = ( ) => {
+				const { result } = reader;
+				this.fileBuffer = this.#getFileBuffer( result );
+				this.result = result;
+
+				this.#loader.parse( this.fileBuffer, " ", ( gltf ) => {
+					// console.log(gltf)
+					this.#parser = gltf.parser;
+					this.gltf = gltf;
+				} );
+
+				// this.#parseFileBuffer( fileBuffer ).then( ( ) => {
+
+				// } );
+			};
+			reader.readAsDataURL( file );
+		} );
+	}
+
+	postload ( ) {
+		this.#setModuleGLB( {
+			name: this.#file.name,
+			type: this.#file.type,
+			data: this.result
+		} );
+
+		this.#buildNodesMap( )
+		this.#buildSceneGraph( this.gltf.scenes[ 0 ] );
+	}
+
+
+
 	#readFile ( file ) {
 		console.log( "GLTFImportController - #readFile" );
 
