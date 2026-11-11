@@ -5,6 +5,7 @@ export default class ViewCore extends Object3D {
 	static type = ModuleCore.type;
 
 	#module;
+	#registry;
 
 	constructor ( module ) {
 		// console.log( `ViewCore - constructor` );
@@ -16,6 +17,14 @@ export default class ViewCore extends Object3D {
 
 	get module ( ) {
 		return this.#module;
+	}
+
+	setRegistry ( registry ) {
+		this.#registry = registry;
+	}
+
+	get _registry ( ) {
+		return this.#registry;
 	}
 
 	/// overload in children

@@ -41,6 +41,7 @@ export default class ViewsRegistry extends ViewCore {
 
 		const constructor = ViewTypes[ type ] || ViewCore;
 		const view = new constructor( module );
+		view.setRegistry( this );
 		
 		this.add( view );
 		this.#views.set( UUID, view );

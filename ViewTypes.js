@@ -17,6 +17,7 @@ import PointLightView from "./PointLightView.js"
 import AmbientLightView from "./AmbientLightView.js"
 import SpotLightView from "./SpotLightView.js"
 import DirectionalLightView from "./DirectionalLightView.js"
+import ObjectView from "./ObjectView.js"
 
 const ViewTypes = {
 	[ ViewCore.type ]: ViewCore,
@@ -38,6 +39,7 @@ const ViewTypes = {
 	[ AmbientLightView.type ]: AmbientLightView,
 	[ SpotLightView.type ]: SpotLightView,
 	[ DirectionalLightView.type ]: DirectionalLightView,
+	[ ObjectView.type ]: ObjectView,
 };
 
 Object.freeze( ViewTypes );
