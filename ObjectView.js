@@ -34,9 +34,10 @@ export default class ObjectView extends TransformView {
 	}
 
 	#removeChildren ( children ) {
-		//console.log( `ObjectView - removeChildren` );
+		console.log( `ObjectView - removeChildren` );
 
 		for ( const child of children ) {
+			console.log( child )
 			const view = this._registry.getView( child );
 			this._registry.add( view );
 		}
